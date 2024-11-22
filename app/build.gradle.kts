@@ -62,4 +62,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     implementation("io.github.ehsannarmani:compose-charts:0.0.18")
     implementation("androidx.compose.material:material-icons-extended:latest")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.google.code.gson:gson:2.11.0")
 }

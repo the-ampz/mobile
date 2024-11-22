@@ -31,6 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
+import dev.ericknathan.ampz.controllers.AuthController
+import dev.ericknathan.ampz.controllers.ConsumptionController
+import dev.ericknathan.ampz.models.Challenge
 import dev.ericknathan.ampz.models.NavItem
 import dev.ericknathan.ampz.ui.activities.pages.ChallengesPage
 import dev.ericknathan.ampz.ui.activities.pages.HomePage

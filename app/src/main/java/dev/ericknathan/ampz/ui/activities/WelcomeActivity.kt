@@ -36,6 +36,13 @@ class WelcomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         enableEdgeToEdge()
+
+        val userPreferences = getSharedPreferences("user", MODE_PRIVATE)
+        if (userPreferences.contains("name")) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
+
         setContent {
             AmpzTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

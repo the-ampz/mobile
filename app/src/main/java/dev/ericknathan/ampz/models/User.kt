@@ -12,6 +12,20 @@ data class User(
     val gender : Gender
 )
 
+data class Profile(
+    val id : Int,
+    val name: String,
+    val score : Int,
+    val gender : String,
+    val email : String? = null,
+    val birthDate : String? = null
+)
+
+data class RankingUser(
+    val position: Int,
+    val user: User
+)
+
 fun getUserAvatar(gender : Gender): Int {
     return when (gender) {
         Gender.BOY -> R.drawable.avatar_boy

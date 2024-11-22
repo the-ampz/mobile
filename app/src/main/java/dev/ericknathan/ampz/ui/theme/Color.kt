@@ -30,5 +30,4 @@ val RankGold = Color(0xFFFEDA16)
 val RankSilver = Color(0xFFA7B1CA)
 val RankBronze = Color(0xFFD79042)
 
-val Blue500 = Color(0xFF0091AD)
-val Yellow500 = Color(0xFFD78521)
+val ErrorColor = Color(0xFFFF101F)

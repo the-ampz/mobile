@@ -1,5 +1,7 @@
 package dev.ericknathan.ampz.ui.activities.pages
 
+import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,40 +20,38 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.ericknathan.ampz.controllers.ConsumptionController
+import dev.ericknathan.ampz.models.Challenge
 import dev.ericknathan.ampz.ui.components.FormButton
 import dev.ericknathan.ampz.ui.components.Header
+import dev.ericknathan.ampz.ui.components.Skeleton
 import dev.ericknathan.ampz.ui.theme.AmpzTheme
 
 @Preview(showBackground = true)
 @Composable
 fun ChallengesPage() {
-    val challenges = listOf(
-        Challenge(
-            title = "Reduza o consumo em 10%",
-            description = "Reduza seu consumo diário de energia em pelo menos 10% comparado ao último mês.",
-            progress = 0.4f,
-            reward = "50 pontos",
-            completed = false
-        ),
-        Challenge(
-            title = "Desconecte dispositivos em standby",
-            description = "Desconecte dispositivos que consomem energia em modo standby por 5 dias consecutivos.",
-            progress = 0.8f,
-            reward = "30 pontos",
-            completed = false
-        ),
-        Challenge(
-            title = "Complete seu perfil",
-            description = "Preencha todos os campos do seu perfil para começar sua jornada de economia de energia.",
-            progress = 1f,
-            reward = "10 pontos",
-            completed = true
+    val context = LocalContext.current as ComponentActivity
+    val controller = remember { ConsumptionController(context) }
+    val user = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+    val userId = user.getInt("id", 0)
+
+    var challenges = remember { mutableStateListOf<Challenge>() }
+    LaunchedEffect(userId) {
+        controller.getChallenges(
+            id = userId,
+            onSubmit = { challengesList ->
+                challenges.addAll(challengesList)
+            }
         )
-    )
+    }
 
     AmpzTheme {
         Column(
@@ -59,15 +59,30 @@ fun ChallengesPage() {
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Header(
                 text = "Desafios",
                 modifier = Modifier.padding(bottom = 16.dp, top = 24.dp)
             )
 
-            challenges.forEach { challenge ->
-                ChallengeCard(challenge)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                if(challenges.isNotEmpty()) {
+                    challenges.forEach { challenge ->
+                        ChallengeCard(challenge)
+                    }
+                } else {
+                    (0..2).forEach { _ ->
+                        Skeleton(
+                            modifier = Modifier.height(225.dp).fillMaxWidth(),
+                            radius = 8
+                        )
+                    }
+                }
             }
         }
     }
@@ -88,7 +103,6 @@ fun ChallengeCard(challenge: Challenge) {
                 modifier = Modifier.padding(bottom = 8.dp),
             )
 
-            // Barra de progresso
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -107,7 +121,6 @@ fun ChallengeCard(challenge: Challenge) {
                 )
             }
 
-            // Recompensa e botão de ação
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -136,12 +149,3 @@ fun ChallengeCard(challenge: Challenge) {
         }
     }
 }
-
-// Modelo de dados para um desafio
-data class Challenge(
-    val title: String,
-    val description: String,
-    val progress: Float,
-    val reward: String,
-    val completed: Boolean
-)

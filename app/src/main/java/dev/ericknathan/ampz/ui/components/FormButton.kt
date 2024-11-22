@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -32,41 +34,66 @@ import dev.ericknathan.ampz.ui.theme.Typography
 fun FormButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false
 ) {
     Button(
         onClick,
-        modifier = modifier.fillMaxWidth().height(48.dp),
-        shape = RoundedCornerShape(8.dp)
+        modifier = modifier.fillMaxWidth()
+            .height(48.dp)
+            .alpha(if (isLoading) 0.9f else 1f)
+            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp)),
+        shape = RoundedCornerShape(8.dp),
+        enabled = !isLoading
     ) {
-        Text(
-            text,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                strokeWidth = 2.dp
+            )
+        } else {
+            Text(
+                text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
     }
 }
 
 @Composable
 fun FormButtonSecondary(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false
 ) {
     OutlinedButton(
         onClick,
-        modifier = Modifier.fillMaxWidth().height(48.dp),
+        modifier = modifier.fillMaxWidth()
+            .height(48.dp)
+            .alpha(if (isLoading) 0.9f else 1f),
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(1.dp, Secondary500),
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent,
         )
     ) {
-        Text(
-            text,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSecondary,
-            fontSize = 14.sp
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                color = MaterialTheme.colorScheme.onSecondary,
+                strokeWidth = 2.dp
+            )
+        } else {
+            Text(
+                text,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSecondary,
+                fontSize = 14.sp
+            )
+        }
     }
 }
 

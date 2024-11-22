@@ -20,8 +20,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.ericknathan.ampz.R
+import dev.ericknathan.ampz.controllers.AuthController
 import dev.ericknathan.ampz.ui.components.FormButton
 import dev.ericknathan.ampz.ui.components.FormButtonSecondary
 import dev.ericknathan.ampz.ui.components.FormField
@@ -43,6 +46,8 @@ import dev.ericknathan.ampz.ui.theme.AmpzTheme
 import dev.ericknathan.ampz.ui.theme.Typography
 
 class RecoverPasswordActivity : ComponentActivity() {
+    private val controller = AuthController(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -57,12 +62,13 @@ class RecoverPasswordActivity : ComponentActivity() {
         }
     }
 
-
     @Preview(showBackground = true)
     @Composable
     fun RecoverPasswordScreen() {
         val context = LocalContext.current as RecoverPasswordActivity
         val email = remember { mutableStateOf("") }
+        var isSubmitting by remember { mutableStateOf(false) }
+        var errorsList by remember { mutableStateOf(mutableMapOf<String, String>()) }
 
         AmpzTheme {
             Column(
@@ -91,14 +97,31 @@ class RecoverPasswordActivity : ComponentActivity() {
                 }
                 FormField(
                     value = email.value,
-                    onValueChange = { email.value = it },
+                    onValueChange = {
+                        email.value = it
+                        errorsList.remove("email")
+                    },
                     label = "Endereço de E-mail",
                     placeholder = "Insira seu endereço de e-mail",
-                    keyboardType = KeyboardType.Email
+                    keyboardType = KeyboardType.Email,
+                    error = errorsList["email"]
                 )
                 FormButton(
+                    isLoading = isSubmitting,
                     text = "Enviar e-mail para responsável",
-                    onClick = { /* Do something! */ }
+                    onClick = {
+                        isSubmitting = true
+                        controller.recoverPassword(
+                            email.value,
+                            onSubmit = {
+                                isSubmitting = false
+                            },
+                            onError = { errors ->
+                                isSubmitting = false
+                                errorsList = errors
+                            }
+                        )
+                    }
                 )
                 TermsPrivacyText()
             }

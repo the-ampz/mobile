@@ -19,7 +19,7 @@ private val DarkColorScheme = darkColorScheme(
 
     background = Secondary900,
     onBackground = Secondary100,
-    secondaryContainer = Primary500.copy(alpha = 0.2f)
+    secondaryContainer = Primary500.copy(alpha = 0.2f),
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -31,8 +31,8 @@ private val LightColorScheme = lightColorScheme(
 
     background = Secondary50,
     onBackground = Secondary800,
-    secondaryContainer = Primary500.copy(alpha = 0.2f)
-
+    secondaryContainer = Primary500.copy(alpha = 0.2f),
+    error = ErrorColor
 )
 
 @Composable

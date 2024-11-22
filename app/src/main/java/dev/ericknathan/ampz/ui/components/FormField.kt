@@ -1,5 +1,6 @@
 package dev.ericknathan.ampz.ui.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -16,7 +17,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import dev.ericknathan.ampz.R
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun FormField(
@@ -26,37 +29,50 @@ fun FormField(
     keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit,
     readOnly: Boolean = false,
-    trailingIcon : @Composable (() -> Unit)? = null
+    trailingIcon : @Composable (() -> Unit)? = null,
+    error: String? = null
 ) {
     var passwordVisible = rememberSaveable { mutableStateOf(false) }
 
-    OutlinedTextField(
-        value,
-        onValueChange,
-        label = { Text(label, fontSize = 14.sp) },
-        modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text(placeholder, color = Color.Gray, fontSize = 14.sp) },
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        singleLine = true,
-        textStyle = TextStyle(fontSize = 14.sp),
-        visualTransformation = if (!passwordVisible.value && keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
-        readOnly = readOnly,
-        trailingIcon = {
-            if (keyboardType == KeyboardType.Password) {
-                androidx.compose.material3.IconButton(
-                    onClick = { passwordVisible.value = !passwordVisible.value }
-                ) {
-                    Icon(
-                        painter = painterResource(id =
+    Column {
+        OutlinedTextField(
+            value,
+            onValueChange,
+            label = { Text(label, fontSize = 14.sp) },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(placeholder, color = Color.Gray, fontSize = 14.sp) },
+            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+            singleLine = true,
+            textStyle = TextStyle(fontSize = 14.sp),
+            visualTransformation = if (!passwordVisible.value && keyboardType == KeyboardType.Password) PasswordVisualTransformation() else VisualTransformation.None,
+            readOnly = readOnly,
+            trailingIcon = {
+                if (keyboardType == KeyboardType.Password) {
+                    androidx.compose.material3.IconButton(
+                        onClick = { passwordVisible.value = !passwordVisible.value }
+                    ) {
+                        Icon(
+                            painter = painterResource(id =
                             if (passwordVisible.value) R.drawable.icon_visibility_off
                             else R.drawable.icon_visibility
-                        ),
-                        contentDescription = "Visualizar senha"
-                    )
+                            ),
+                            contentDescription = "Visualizar senha"
+                        )
+                    }
+                } else {
+                    trailingIcon?.invoke()
                 }
-            } else {
-                trailingIcon?.invoke()
-            }
+            },
+            isError = error != null
+        )
+
+        error?.let {
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium
+            )
         }
-    )
+    }
 }

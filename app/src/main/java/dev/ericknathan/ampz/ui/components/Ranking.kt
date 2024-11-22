@@ -17,21 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.alpha
-import dev.ericknathan.ampz.R
-import dev.ericknathan.ampz.models.User
+import dev.ericknathan.ampz.models.RankingUser
 import dev.ericknathan.ampz.models.getUserAvatar
 import dev.ericknathan.ampz.ui.theme.RankBronze
 import dev.ericknathan.ampz.ui.theme.RankGold
 import dev.ericknathan.ampz.ui.theme.RankSilver
 
 @Composable
-fun RankingHighlight(place : Int, user : User) {
-    val color = when (place) {
+fun RankingHighlight(rankingUser: RankingUser) {
+    val color = when (rankingUser.position) {
         1 -> RankGold
         2 -> RankSilver
         3 -> RankBronze
@@ -42,7 +39,7 @@ fun RankingHighlight(place : Int, user : User) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "$place°",
+            text = "${rankingUser.position}°",
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             color = color
@@ -53,20 +50,20 @@ fun RankingHighlight(place : Int, user : User) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = getUserAvatar(user.gender)),
+                painter = painterResource(id = getUserAvatar(rankingUser.user.gender)),
                 contentDescription = "Avatar",
-                modifier = Modifier.size((110 - (place * 10)).dp).clip(CircleShape).border(4.dp, color, CircleShape).padding(vertical = 8 .dp),
+                modifier = Modifier.size((110 - (rankingUser.position * 10)).dp).clip(CircleShape).border(4.dp, color, CircleShape).padding(vertical = 8 .dp),
                 alignment = Alignment.Center
             )
         }
 
         Text(
-            text = user.name,
+            text = rankingUser.user.name,
             style = MaterialTheme.typography.bodySmall
         )
 
         Text(
-            text = user.score.toString(),
+            text = rankingUser.user.score.toString(),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.primary
         )
@@ -74,13 +71,13 @@ fun RankingHighlight(place : Int, user : User) {
 }
 
 @Composable
-fun RankingItem(place : Int, user : User) {
+fun RankingItem(rankingUser: RankingUser) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(
-            text = "$place°",
+            text = "${rankingUser.position}°",
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
@@ -88,27 +85,36 @@ fun RankingItem(place : Int, user : User) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 8.dp).background(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(32.dp)),
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(32.dp)
+                ),
         ) {
             Image(
-                painter = painterResource(id = getUserAvatar(user.gender)),
+                painter = painterResource(id = getUserAvatar(rankingUser.user.gender)),
                 contentDescription = "Avatar",
-                modifier = Modifier.size(64.dp).clip(CircleShape),
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(CircleShape),
                 alignment = Alignment.Center
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = user.name,
+                    text = rankingUser.user.name,
                     style = MaterialTheme.typography.bodySmall
                 )
 
                 Text(
-                    text = user.score.toString(),
+                    text = rankingUser.user.score.toString(),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary
                 )

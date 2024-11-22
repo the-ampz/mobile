@@ -1,5 +1,8 @@
 package dev.ericknathan.ampz.ui.activities.pages
 
+import android.content.Context
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,31 +30,48 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.ericknathan.ampz.R
+import dev.ericknathan.ampz.controllers.AuthController
+import dev.ericknathan.ampz.models.Gender
+import dev.ericknathan.ampz.ui.activities.HomeActivity
+import dev.ericknathan.ampz.ui.activities.WelcomeActivity
 import dev.ericknathan.ampz.ui.components.FormButton
 import dev.ericknathan.ampz.ui.components.FormButtonSecondary
 import dev.ericknathan.ampz.ui.components.FormField
 import dev.ericknathan.ampz.ui.components.Header
 import dev.ericknathan.ampz.ui.theme.AmpzTheme
 
+data class GenderItem(val value : Gender, val label: String)
+val genderList = listOf(
+    GenderItem(Gender.BOY, "Masculino"),
+    GenderItem(Gender.GIRL, "Feminino")
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun ProfilePage() {
-    var name by remember { mutableStateOf("Maria Nogueira") }
-    val emailResponsavel = "responsavel@email.com"
-    var birthDate by remember { mutableStateOf("01/01/2015") }
-    var gender by remember { mutableStateOf("Feminino") }
+    val context = LocalContext.current as ComponentActivity
+    val controller = AuthController(context)
+    val user = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+    var errorsList by remember { mutableStateOf(mutableMapOf<String, String>()) }
 
-    val genderList = listOf("Masculino", "Feminino")
+    var name by remember { mutableStateOf(user.getString("name", "") ?: "") }
+    val email = user.getString("email", "") ?: ""
+    var birthDate by remember { mutableStateOf(user.getString("birthDate", "") ?: "") }
+    var gender by remember { mutableStateOf(user.getString("gender", "BOY") ?: "BOY") }
+    var isSubmitting by remember { mutableStateOf(false) }
+    var isSigningOut by remember { mutableStateOf(false) }
     val avatar = when (gender) {
-        "Feminino" -> painterResource(id = R.drawable.avatar_girl)
+        Gender.GIRL.toString() -> painterResource(id = R.drawable.avatar_girl)
         else -> painterResource(id = R.drawable.avatar_boy)
     }
+
 
     AmpzTheme {
         Column(
@@ -81,24 +101,32 @@ fun ProfilePage() {
             ) {
                 FormField(
                     value = name,
-                    onValueChange = { name = it },
+                    onValueChange = {
+                        name = it
+                        errorsList.remove("name")
+                    },
                     label = "Nome completo",
-                    placeholder = "Insira seu nome completo"
+                    placeholder = "Insira seu nome completo",
+                    error = errorsList["name"]
                 )
 
                 FormField(
                     value = birthDate,
-                    onValueChange = { birthDate = it },
+                    onValueChange = {
+                        birthDate = it
+                        errorsList.remove("birthDate")
+                    },
                     label = "Data de nascimento",
                     placeholder = "DD/MM/AAAA",
-                    keyboardType = KeyboardType.Number
+                    keyboardType = KeyboardType.Number,
+                    error = errorsList["birthDate"]
                 )
 
                 FormField(
-                    value = emailResponsavel,
+                    value = email,
                     onValueChange = {},
-                    label = "Email do Responsável",
-                    placeholder = "Email do Responsável",
+                    label = "Endereço de E-mail",
+                    placeholder = "Endereço de E-mail",
                     readOnly = true,
                     trailingIcon = {
                         Icon(
@@ -111,24 +139,46 @@ fun ProfilePage() {
                 SingleChoiceSegmentedButtonRow(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    genderList.forEachIndexed { index, label ->
+                    genderList.forEachIndexed { index, item ->
                         SegmentedButton(
                             shape = SegmentedButtonDefaults.itemShape(index = index, count = genderList.size),
-                            onClick = { gender = label },
-                            selected = label == gender
+                            onClick = { gender = item.value.toString() },
+                            selected = gender == item.value.toString()
                         ) {
-                            Text(label)
+                            Text(item.label)
                         }
                     }
                 }
 
                 FormButton(
-                    onClick = {},
+                    isLoading = isSubmitting,
+                    onClick = {
+                        isSubmitting = true
+
+                        controller.updateProfile(
+                            name,
+                            birthDate,
+                            gender,
+                            onSubmit = { isSubmitting = false },
+                            onError = {
+                                errorsList = it
+                                isSubmitting = false
+                            }
+                        )
+                    },
                     text = "Salvar Alterações"
                 )
 
                 FormButtonSecondary(
-                    onClick = {},
+                    isLoading = isSigningOut,
+                    onClick = {
+                        isSigningOut = true
+
+                        controller.signOut(
+                            user.getInt("id", 0),
+                            onSubmit = { isSigningOut = false }
+                        )
+                    },
                     text = "Deslogar"
                 )
             }
