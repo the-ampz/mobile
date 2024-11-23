@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 
 ## 🚀 Vídeo do Pitch do projeto
 
-[Link para o vídeo](#) apresentando a solução, seus benefícios e funcionamento.  
+[Link para o vídeo](https://www.youtube.com/watch?v=AjYOZ6lY51U) apresentando a solução, seus benefícios e funcionamento.  
 
 ---
 
