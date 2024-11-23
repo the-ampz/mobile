@@ -8,7 +8,7 @@ Este repositório contém o projeto **Ampz**, desenvolvido como parte da discipl
 
 ## 🎥 Pré-visualização do projeto
 
-TODO: Colocar vídeo aqui
+https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 
 ---
 
