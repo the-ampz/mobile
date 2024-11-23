@@ -28,6 +28,8 @@ https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 - [Lista de desafios](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/ChallengesPage.kt)
 - [Perfil](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/ProfilePage.kt)
 
+---
+
 ## 🔗 Integrações
 - [[POST] Login](./app/src/main/java/dev/ericknathan/ampz/repositories/AuthRepository.kt#L17)
 - [[POST] Recuperação de senha](./app/src/main/java/dev/ericknathan/ampz/repositories/AuthRepository.kt#L44)
@@ -36,6 +38,8 @@ https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 - [[GET] Obter consumo de energia](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L15)
 - [[GET] Obter ranking](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L40)
 - [[GET] Obter lista de desafios](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L65)
+
+---
 
 ## 👥 Equipe
 Este projeto está sendo desenvolvido pelos seguintes membros:
