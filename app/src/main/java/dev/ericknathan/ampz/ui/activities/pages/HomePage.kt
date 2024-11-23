@@ -1,7 +1,6 @@
 package dev.ericknathan.ampz.ui.activities.pages
 
 import android.content.Context
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.EaseInOutCubic

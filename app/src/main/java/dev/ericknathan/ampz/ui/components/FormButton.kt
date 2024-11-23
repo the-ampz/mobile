@@ -35,16 +35,20 @@ fun FormButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    color : Color = MaterialTheme.colorScheme.primary
 ) {
     Button(
         onClick,
         modifier = modifier.fillMaxWidth()
             .height(48.dp)
             .alpha(if (isLoading) 0.9f else 1f)
-            .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp)),
+            .background(color, shape = RoundedCornerShape(8.dp)),
         shape = RoundedCornerShape(8.dp),
-        enabled = !isLoading
+        enabled = !isLoading,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = color
+        )
     ) {
         if (isLoading) {
             CircularProgressIndicator(

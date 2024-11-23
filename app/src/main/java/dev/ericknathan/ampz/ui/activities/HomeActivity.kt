@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Devices
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Person
@@ -36,6 +37,7 @@ import dev.ericknathan.ampz.controllers.ConsumptionController
 import dev.ericknathan.ampz.models.Challenge
 import dev.ericknathan.ampz.models.NavItem
 import dev.ericknathan.ampz.ui.activities.pages.ChallengesPage
+import dev.ericknathan.ampz.ui.activities.pages.DevicesPage
 import dev.ericknathan.ampz.ui.activities.pages.HomePage
 import dev.ericknathan.ampz.ui.activities.pages.RankingPage
 import dev.ericknathan.ampz.ui.activities.pages.ProfilePage
@@ -45,6 +47,7 @@ import dev.ericknathan.ampz.ui.theme.Primary500
 class HomeActivity : ComponentActivity() {
     val navItemList = listOf(
         NavItem("Início", Icons.Default.Home),
+        NavItem("Dispositivos", Icons.Default.Devices),
         NavItem("Ranking", Icons.Default.Leaderboard, "2°"),
         NavItem("Desafios", Icons.Default.Star, "3"),
         NavItem("Perfil", Icons.Default.Person),
@@ -107,9 +110,10 @@ class HomeActivity : ComponentActivity() {
                 ) {
                     when (selectedIndex) {
                         0 -> HomePage()
-                        1 -> RankingPage()
-                        2 -> ChallengesPage()
-                        3 -> ProfilePage()
+                        1 -> DevicesPage()
+                        2 -> RankingPage()
+                        3 -> ChallengesPage()
+                        4 -> ProfilePage()
                     }
                 }
             }

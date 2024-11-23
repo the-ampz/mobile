@@ -86,26 +86,14 @@ class AuthController(private val context: ComponentActivity) {
         )
     }
 
-    fun signOut(id : Int, onSubmit: () -> Unit) {
-        repository.signOut(
-            id,
-            onSuccess = {
-                context.runOnUiThread {
-                    context.getSharedPreferences("user", Context.MODE_PRIVATE).edit().clear().apply()
-                    context.startActivity(Intent(context, WelcomeActivity::class.java))
-                    context.finish()
+    fun signOut(onSubmit: () -> Unit) {
+        context.runOnUiThread {
+            context.getSharedPreferences("user", Context.MODE_PRIVATE).edit().clear().apply()
+            context.startActivity(Intent(context, WelcomeActivity::class.java))
+            context.finish()
 
-                    onSubmit()
-                }
-            },
-            onFailure = { error ->
-                context.runOnUiThread {
-                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-
-                    onSubmit()
-                }
-            }
-        )
+            onSubmit()
+        }
     }
 
     fun updateProfile(name: String, birthDate: String, gender: String, onSubmit: () -> Unit, onError: (MutableMap<String, String>) -> Unit) {

@@ -67,31 +67,6 @@ class AuthRepository {
         httpClient.newCall(request).enqueue(response)
     }
 
-    fun signOut(id: Int, onSuccess: () -> Unit, onFailure: (error: String) -> Unit) {
-        val request = Request.Builder()
-            .url("${Constants.API_URL}/auth/signout/$id")
-            .delete()
-            .build()
-
-        val response = object : Callback {
-            override fun onFailure(call: okhttp3.Call, e: java.io.IOException) {
-                onFailure("Erro ao realizar logout")
-                Log.e("AuthRepository", "Error on sign out", e)
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                if(response.code == 404) {
-                    onFailure("Usuário não encontrado")
-                    return
-                }
-
-                onSuccess()
-            }
-        }
-
-        httpClient.newCall(request).enqueue(response)
-    }
-
     fun updateProfile(profile : Profile, onSuccess: () -> Unit, onFailure: (error: String) -> Unit) {
         val formJson = gson.toJson(profile)
         val request = Request.Builder()

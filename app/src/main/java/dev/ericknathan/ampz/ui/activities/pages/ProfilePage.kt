@@ -175,7 +175,6 @@ fun ProfilePage() {
                         isSigningOut = true
 
                         controller.signOut(
-                            user.getInt("id", 0),
                             onSubmit = { isSigningOut = false }
                         )
                     },
