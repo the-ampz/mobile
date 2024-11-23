@@ -8,13 +8,13 @@ Este repositório contém o projeto **Ampz**, desenvolvido como parte da discipl
 
 ## 🎥 Pré-visualização do projeto
 
-https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
+https://github.com/user-attachments/assets/b294b086-1336-48d6-bd0e-2a2e2f9d6092
 
 ---
 
 ## 🚀 Vídeo do Pitch do projeto
 
-[Link para o vídeo](https://www.youtube.com/watch?v=AjYOZ6lY51U) apresentando a solução, seus benefícios e funcionamento.  
+[Link para o vídeo](https://www.youtube.com/watch?v=P3Hi4C2hoY4) apresentando a solução, seus benefícios e funcionamento.  
 
 ---
 
@@ -22,8 +22,8 @@ https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 - [Boas vindas](./app/src/main/java/dev/ericknathan/ampz/ui/activities/WelcomeActivity.kt)
 - [Login](./app/src/main/java/dev/ericknathan/ampz/ui/activities/SignInActivity.kt)
 - [Recuperação de senha](./app/src/main/java/dev/ericknathan/ampz/ui/activities/RecoverPasswordActivity.kt)
-- [Página inicial com navegação]([HomeActivity](./app/src/main/java/dev/ericknathan/ampz/ui/activities/HomeActivity.kt) )
-- [Página CRUD de dispositivos]([HomeActivity](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/DevicesPage.kt) )
+- [Página inicial com navegação](./app/src/main/java/dev/ericknathan/ampz/ui/activities/HomeActivity.kt)
+- [Página CRUD de dispositivos](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/DevicesPage.kt)
 - [Página de estatísticas](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/HomePage.kt)
 - [Ranking](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/RankingPage.kt)
 - [Lista de desafios](./app/src/main/java/dev/ericknathan/ampz/ui/activities/pages/ChallengesPage.kt)
@@ -36,11 +36,10 @@ https://github.com/user-attachments/assets/5187da1b-9f1c-4560-890f-049e95885a3d
 - [[POST] Criar dispositivo](./app/src/main/java/dev/ericknathan/ampz/repositories/DeviceRepository.kt#L16)
 - [[PUT] Editar dispositivo](./app/src/main/java/dev/ericknathan/ampz/repositories/DeviceRepository.kt#L41)
 - [[DELETE] Excluir dispositivo](./app/src/main/java/dev/ericknathan/ampz/repositories/DeviceRepository.kt#L66)
-- [[PUT] Atualizar perfil](./app/src/main/java/dev/ericknathan/ampz/repositories/AuthRepository.kt#L95)
+- [[PUT] Atualizar perfil](./app/src/main/java/dev/ericknathan/ampz/repositories/AuthRepository.kt#L70)
 - [[GET] Obter consumo de energia](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L15)
 - [[GET] Obter ranking](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L40)
 - [[GET] Obter lista de desafios](./app/src/main/java/dev/ericknathan/ampz/repositories/ConsumptionRepository.kt#L65)
-- [[DELETE] Deslogar usuário](./app/src/main/java/dev/ericknathan/ampz/repositories/AuthRepository.kt#L70)
 
 ---
 
